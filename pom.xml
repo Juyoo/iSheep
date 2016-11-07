@@ -23,8 +23,11 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 
-		<org-assertj.version>3.5.2</org-assertj.version>
 		<google.guava.version>20.0</google.guava.version>
+		<joda-time.version>2.9.5</joda-time.version>
+
+		<!-- TESTS -->
+		<org-assertj.version>3.5.2</org-assertj.version>
 	</properties>
 
 	<dependencies>
@@ -33,6 +36,13 @@
 			<artifactId>guava</artifactId>
 			<version>${google.guava.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>${joda-time.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
