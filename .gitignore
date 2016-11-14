@@ -19,6 +19,7 @@ iSheep.iml
 # User-specific stuff:
 .idea/workspace.xml
 .idea/tasks.xml
+.idea/misc.xml
 
 # VCS
 .idea/vcs.xml
