@@ -1,12 +1,12 @@
 package org.isheep.entity;
 
+import org.isheep.entity.embeddable.Address;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import java.util.Iterator;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by anthony on 08/11/16.
  */
-public class AddressTestHibernateValidatorTests {
+public class AddressHibernateValidatorTests {
 
     public static Address createValid() {
         return new Address("6 Bis", "Rue du mouton", "63000", "Clermont-Ferrand");

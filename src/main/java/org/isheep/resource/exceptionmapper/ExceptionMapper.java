@@ -1,4 +1,4 @@
-package org.isheep.controller.exceptionmapper;
+package org.isheep.resource.exceptionmapper;
 
 import org.isheep.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;

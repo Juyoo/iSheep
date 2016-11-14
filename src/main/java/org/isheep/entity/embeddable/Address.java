@@ -1,4 +1,4 @@
-package org.isheep.entity.embedded;
+package org.isheep.entity.embeddable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 

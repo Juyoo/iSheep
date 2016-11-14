@@ -1,4 +1,4 @@
-package org.isheep.entity.embedded;
+package org.isheep.entity.embeddable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 public class CreditCard {
 
     @NotEmpty
-    private String name;
+    private String ownerName;
 
     @Size(min = 16, max = 16)
     private String number;
@@ -30,20 +30,20 @@ public class CreditCard {
     @Min(999)
     private Integer yearExpire;
 
-    public CreditCard(final String name, final String number, final String csc, final Integer monthExpire, final Integer yearExpire) {
-        this.name = name;
+    public CreditCard(final String ownerName, final String number, final String csc, final Integer monthExpire, final Integer yearExpire) {
+        this.ownerName = ownerName;
         this.number = number;
         this.csc = csc;
         this.monthExpire = monthExpire;
         this.yearExpire = yearExpire;
     }
 
-    public String getName() {
-        return name;
+    public String getOwnerName() {
+        return ownerName;
     }
 
-    public void setName(final String name) {
-        this.name = name;
+    public void setOwnerName(final String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getNumber() {

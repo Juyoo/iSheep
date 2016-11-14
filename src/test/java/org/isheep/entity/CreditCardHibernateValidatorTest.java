@@ -1,5 +1,6 @@
 package org.isheep.entity;
 
+import org.isheep.entity.embeddable.CreditCard;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -14,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by anthony on 08/11/16.
  */
-public class CreditCardHibernateValidatorsTest {
+public class CreditCardHibernateValidatorTest {
 
     public static CreditCard createValid() {
         return new CreditCard("Amazon", "5105105105105100", "563", 5, 2018);
@@ -30,7 +31,7 @@ public class CreditCardHibernateValidatorsTest {
     @Test
     public void shouldValidateName() {
         final CreditCard entity = createValid();
-        entity.setName("");
+        entity.setOwnerName("");
         final Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
         assertThat(constraintViolations.size()).isEqualTo(1);
@@ -60,13 +61,19 @@ public class CreditCardHibernateValidatorsTest {
         Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
         assertThat(constraintViolations.size()).isEqualTo(1);
-        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("size must be between 3 and 3");
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
+
+        entity.setCsc("adc");
+        constraintViolations = validator.validate(entity);
+
+        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
 
         entity.setCsc("1325");
         constraintViolations = validator.validate(entity);
 
         assertThat(constraintViolations.size()).isEqualTo(1);
-        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("size must be between 3 and 3");
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
     }
 
     @Test

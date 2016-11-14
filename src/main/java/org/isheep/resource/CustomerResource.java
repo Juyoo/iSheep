@@ -1,4 +1,4 @@
-package org.isheep.controller;
+package org.isheep.resource;
 
 import org.isheep.entity.Customer;
 import org.isheep.exception.ResourceNotFoundException;
@@ -7,9 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -18,13 +15,30 @@ import java.util.List;
  */
 @RequestMapping("/customer")
 @RestController
-public class CustomerController {
+public class CustomerResource {
 
     private final CustomerRepository customerRepository;
 
     @Inject
-    public CustomerController(final CustomerRepository customerRepository) {
+    public CustomerResource(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public final Customer findOne(@PathVariable("id") final Long id) {
+        final Customer customer = customerRepository.findOne(id);
+        if (customer == null) {
+            throw new ResourceNotFoundException("No customer found for ID '" + id+ "'");
+        }
+
+        return customer;
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
+    public final List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -38,20 +52,14 @@ public class CustomerController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public final void delete(@PathVariable("id") final Long id) {
         final Customer customer = customerRepository.findOne(id);
         if (customer == null) {
-            throw new ResourceNotFoundException("No customer found for ID: " + id);
+            throw new ResourceNotFoundException("No customer found for ID '" + id+ "'");
         }
 
         customerRepository.delete(customer);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
-    public final List<Customer> findAll() {
-        return customerRepository.findAll();
     }
 
 

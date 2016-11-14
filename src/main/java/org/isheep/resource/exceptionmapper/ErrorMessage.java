@@ -1,4 +1,4 @@
-package org.isheep.controller.exceptionmapper;
+package org.isheep.resource.exceptionmapper;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import org.springframework.http.HttpStatus;
