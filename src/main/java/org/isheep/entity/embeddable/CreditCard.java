@@ -30,6 +30,9 @@ public class CreditCard {
     @Min(999)
     private Integer yearExpire;
 
+    CreditCard() {
+    }
+
     public CreditCard(final String ownerName, final String number, final String csc, final Integer monthExpire, final Integer yearExpire) {
         this.ownerName = ownerName;
         this.number = number;

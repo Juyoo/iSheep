@@ -39,7 +39,7 @@ public class Shipping {
     @Min(0)
     private Float price;
 
-    public Shipping() {
+    Shipping() {
     }
 
     public Shipping(final Customer sender, final Name recipientName, final Address recipientAddress, final Parcel parcel, final Float price) {
