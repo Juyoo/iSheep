@@ -32,12 +32,12 @@ public class NameHibernateValidatorTests {
         final Name entity = createValid();
         entity.setFirstname("");
         Set<ConstraintViolation<Name>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setFirstname("Marc");
         constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(0);
+        assertThat(constraintViolations).isEmpty();
     }
 
     @Test
@@ -45,12 +45,12 @@ public class NameHibernateValidatorTests {
         final Name entity = createValid();
         entity.setLastname("");
         Set<ConstraintViolation<Name>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setLastname("Tiger");
         constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(0);
+        assertThat(constraintViolations).isEmpty();
     }
 
 }

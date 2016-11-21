@@ -34,7 +34,7 @@ public class CreditCardHibernateValidatorTest {
         entity.setOwnerName("");
         final Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
     }
 
@@ -44,13 +44,13 @@ public class CreditCardHibernateValidatorTest {
         entity.setNumber("13");
         Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("size must be between 16 and 16");
 
         entity.setNumber("13232156465484984251544584464656");
         constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("size must be between 16 and 16");
     }
 
@@ -60,19 +60,19 @@ public class CreditCardHibernateValidatorTest {
         entity.setCsc("13");
         Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
 
         entity.setCsc("adc");
         constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
 
         entity.setCsc("1325");
         constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
     }
 
@@ -82,13 +82,13 @@ public class CreditCardHibernateValidatorTest {
         entity.setMonthExpire(0);
         Set<ConstraintViolation<CreditCard>> constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("must be greater than or equal to 1");
 
         entity.setMonthExpire(13);
         constraintViolations = validator.validate(entity);
 
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("must be less than or equal to 12");
     }
 
