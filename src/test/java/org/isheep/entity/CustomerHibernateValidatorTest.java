@@ -33,12 +33,12 @@ public class CustomerHibernateValidatorTest {
         final Customer entity = createValid();
         entity.setName("");
         Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setName("Amazon");
         constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(0);
+        assertThat(constraintViolations).isEmpty();
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CustomerHibernateValidatorTest {
         final Customer entity = createValid();
         entity.setAddress(null);
         final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be null");
     }
 
@@ -58,7 +58,7 @@ public class CustomerHibernateValidatorTest {
 
         entity.setAddress(address);
         final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
     }
 
@@ -67,7 +67,7 @@ public class CustomerHibernateValidatorTest {
         final Customer entity = createValid();
         entity.setCreditCard(null);
         final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be null");
     }
 
@@ -79,7 +79,7 @@ public class CustomerHibernateValidatorTest {
 
         entity.setCreditCard(creditCard);
         final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
-        assertThat(constraintViolations.size()).isEqualTo(1);
+        assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
     }
 
