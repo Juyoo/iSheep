@@ -5,8 +5,10 @@ import org.isheep.config.security.ISheepAuthenticationProvider;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -39,6 +41,11 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .addFilterBefore(new ISheepAuthenticationFilter(), BasicAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(final WebSecurity web) throws Exception {
+        web.ignoring().mvcMatchers(HttpMethod.POST, "/customer");
     }
 
     @Override

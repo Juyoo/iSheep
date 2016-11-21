@@ -17,6 +17,9 @@ import java.util.List;
  * Created by anthony on 08/11/16.
  */
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = "token")
+)
 public class Customer {
 
     @Id
