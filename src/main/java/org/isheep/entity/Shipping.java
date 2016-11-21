@@ -1,5 +1,6 @@
 package org.isheep.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.Name;
 
@@ -18,6 +19,7 @@ public class Shipping {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @JsonIgnore
     @Valid
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer sender;
