@@ -5,7 +5,8 @@ package org.isheep.config.security;
  */
 
 import com.google.common.base.Strings;
-import org.isheep.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -19,21 +20,22 @@ import java.util.Collections;
 
 public class ISheepAuthenticationFilter extends OncePerRequestFilter {
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain)
             throws ServletException, IOException {
 
         final String xAuth = request.getHeader("X-Authorization");
 
         // validate the value in xAuth
         if(!isValid(xAuth)){
+            logger.debug("Request received without X-Authorization header, aborting authentication.");
             throw new SecurityException("'X-Authorization' header is required.");
         }
 
-        final Authentication authenticationToken = new AuthenticationToken(Collections.emptyList(), xAuth);
+        final Authentication authenticationToken = new ISheepAuthenticationToken(Collections.emptyList(), xAuth);
 
-        // Create our Authentication and let Spring know about it
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
         filterChain.doFilter(request, response);
