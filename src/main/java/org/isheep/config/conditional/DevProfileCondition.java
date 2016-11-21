@@ -17,15 +17,15 @@ public class DevProfileCondition extends SpringBootCondition {
 
     @Override
     public ConditionOutcome getMatchOutcome(ConditionContext conditionContext, AnnotatedTypeMetadata annotatedTypeMetadata) {
-        Environment environment = conditionContext.getEnvironment();
+        final Environment environment = conditionContext.getEnvironment();
         if (hasLocalProfile(environment)) {
             return ConditionOutcome.match("A local profile has been found.");
         }
         return ConditionOutcome.noMatch("No local profiles found.");
     }
 
-    private boolean hasLocalProfile(Environment environment) {
-        String[] profiles = environment.getActiveProfiles();
+    private boolean hasLocalProfile(final Environment environment) {
+        final String[] profiles = environment.getActiveProfiles();
 
         return Arrays.stream(profiles).anyMatch(Predicate.isEqual(CustomSpringProfiles.DEV_PROFILE));
     }
