@@ -33,29 +33,6 @@ public class CustomerResourceOfflineTest {
 
 
     @Test
-    public void shouldRejectIfNotExists() {
-        doReturn(null).when(customerRepository).findOne(eq(12L));
-
-        try {
-            customerResource.findOne(12L);
-            fail("Should fail if entity doesn't exists.");
-        } catch (final ResourceNotFoundException e) {
-            assertThat(e.getMessage()).isEqualTo("No customer found for ID '12'");
-        }
-    }
-
-    @Test
-    public void shouldFindOne() {
-        final Customer customer = CustomerHibernateValidatorTest.createValid();
-        doReturn(customer).when(customerRepository).findOne(eq(42L));
-
-        final Customer fetched = customerResource.findOne(42L);
-
-        assertThat(fetched).isNotNull();
-        assertThat(fetched).isEqualToIgnoringGivenFields(customer, "id");
-    }
-
-    @Test
     public void shouldRejectCreateIfIdAlreadyDefined() {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setId(42L);
@@ -77,29 +54,6 @@ public class CustomerResourceOfflineTest {
 
         assertThat(created).isEqualToIgnoringGivenFields(customer, "id");
         verify(customerRepository, times(1)).save(customer);
-    }
-
-    @Test
-    public void shouldRejectDeleteIfNotExists() {
-        doReturn(null).when(customerRepository).findOne(eq(12L));
-
-        try {
-            customerResource.delete(12L);
-            fail("Should fail if entity doesn't exists.");
-        } catch (final ResourceNotFoundException e) {
-            assertThat(e.getMessage()).isEqualTo("No customer found for ID '12'");
-        }
-    }
-
-    @Test
-    public void shouldDelete() {
-        doReturn(CustomerHibernateValidatorTest.createValid()).when(customerRepository).findOne(eq(42L));
-
-        try {
-            customerResource.delete(42L);
-        } catch (final Throwable t) {
-            fail("Resource should have been deleted.");
-        }
     }
 
 }

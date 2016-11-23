@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CustomerHibernateValidatorTest {
 
     public static Customer createValid() {
-        return new Customer("Amazon", AddressHibernateValidatorTests.createValid(), CreditCardHibernateValidatorTest.createValid());
+        return new Customer("Amazon", AddressHibernateValidatorTests.createValid(), CreditCardHibernateValidatorTest.createValid(), "qsdqsdsqdsq");
     }
 
     private static Validator validator;
@@ -81,6 +81,16 @@ public class CustomerHibernateValidatorTest {
         final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 3 digits");
+    }
+
+    @Test
+    public void shouldValidateToken() {
+        final Customer entity = createValid();
+        entity.setToken(null);
+
+        final Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity);
+        assertThat(constraintViolations).hasSize(1);
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
     }
 
 }

@@ -32,7 +32,7 @@ public class Parcel {
     @Column(precision = 10, scale = 2)
     private Float weight;
 
-    public Parcel() {
+    Parcel() {
     }
 
     public Parcel(final Float width, final Float height, final Float depth, final Float weight) {

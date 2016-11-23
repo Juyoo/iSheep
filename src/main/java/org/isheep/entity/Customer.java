@@ -1,17 +1,25 @@
 package org.isheep.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.CreditCard;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by anthony on 08/11/16.
  */
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(columnNames = "token")
+)
 public class Customer {
 
     @Id
@@ -31,13 +39,18 @@ public class Customer {
     @Embedded
     private CreditCard creditCard;
 
-    public Customer() {
+    @JsonIgnore
+    @NotBlank
+    private String token;
+
+    Customer() {
     }
 
-    public Customer(final String name, final Address address, final CreditCard creditCard) {
+    public Customer(final String name, final Address address, final CreditCard creditCard, final String token) {
         this.name = name;
         this.address = address;
         this.creditCard = creditCard;
+        this.token = token;
     }
 
     public Long getId() {
@@ -70,5 +83,13 @@ public class Customer {
 
     public void setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

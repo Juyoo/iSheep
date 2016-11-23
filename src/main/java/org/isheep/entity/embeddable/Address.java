@@ -23,7 +23,7 @@ public class Address {
     @NotEmpty
     private String city;
 
-    public Address() {
+    Address() {
 
     }
 

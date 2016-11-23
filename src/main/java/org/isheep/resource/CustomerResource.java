@@ -1,10 +1,14 @@
 package org.isheep.resource;
 
+import org.isheep.config.security.CurrentCustomer;
 import org.isheep.entity.Customer;
-import org.isheep.exception.ResourceNotFoundException;
 import org.isheep.repository.CustomerRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 import javax.ws.rs.core.MediaType;
@@ -25,16 +29,12 @@ public class CustomerResource {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public final Customer findOne(@PathVariable("id") final Long id) {
-        final Customer customer = customerRepository.findOne(id);
-        if (customer == null) {
-            throw new ResourceNotFoundException("No customer found for ID '" + id+ "'");
-        }
-
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    public final Customer me(@CurrentCustomer final Customer customer) {
         return customer;
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
     public final List<Customer> findAll() {
@@ -52,16 +52,10 @@ public class CustomerResource {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public final void delete(@PathVariable("id") final Long id) {
-        final Customer customer = customerRepository.findOne(id);
-        if (customer == null) {
-            throw new ResourceNotFoundException("No customer found for ID '" + id+ "'");
-        }
-
+    @RequestMapping(value = "/me", method = RequestMethod.DELETE)
+    public final void delete(@CurrentCustomer final Customer customer) {
         customerRepository.delete(customer);
     }
-
 
 
 }

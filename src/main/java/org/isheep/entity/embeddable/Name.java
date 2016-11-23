@@ -16,7 +16,7 @@ public class Name {
     @NotEmpty
     private String lastname;
 
-    public Name() {
+    Name() {
     }
 
     public Name(String firstname, String lastname) {
