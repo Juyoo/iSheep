@@ -1,8 +1,6 @@
 package org.isheep.config.security;
 
 import org.isheep.config.CustomSpringProfiles;
-import org.isheep.config.security.ISheepAuthenticationFilter;
-import org.isheep.config.security.ISheepAuthenticationProvider;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
