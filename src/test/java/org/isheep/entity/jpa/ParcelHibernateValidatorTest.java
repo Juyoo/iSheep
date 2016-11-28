@@ -1,6 +1,7 @@
-package org.isheep.entity;
+package org.isheep.entity.jpa;
 
 import org.isheep.config.javax.validation.groups.JPAValidationGroup;
+import org.isheep.entity.Parcel;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -1,6 +1,7 @@
-package org.isheep.entity;
+package org.isheep.entity.jpa;
 
 import org.isheep.config.javax.validation.groups.JPAValidationGroup;
+import org.isheep.entity.Customer;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.CreditCard;
 import org.junit.BeforeClass;

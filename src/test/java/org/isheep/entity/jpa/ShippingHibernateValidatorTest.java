@@ -1,6 +1,9 @@
-package org.isheep.entity;
+package org.isheep.entity.jpa;
 
 import org.isheep.config.javax.validation.groups.JPAValidationGroup;
+import org.isheep.entity.Customer;
+import org.isheep.entity.Parcel;
+import org.isheep.entity.Shipping;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.Name;
 import org.junit.BeforeClass;

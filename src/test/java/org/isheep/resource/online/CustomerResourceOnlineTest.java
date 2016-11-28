@@ -1,77 +1,88 @@
 package org.isheep.resource.online;
 
+import org.hamcrest.Matchers;
 import org.isheep.entity.Customer;
-import org.isheep.entity.CustomerHibernateValidatorTest;
+import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
-import org.isheep.resource.exceptionmapper.ErrorMessage;
+import org.isheep.service.CustomerApiKeyGenerator;
 import org.isheep.testutils.WebIntegrationTest;
 import org.junit.Test;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.*;
+import org.springframework.http.MediaType;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.isA;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by raymo on 27/11/2016.
  */
+@WebMvcTest(CustomerResource.class)
 public class CustomerResourceOnlineTest extends WebIntegrationTest {
 
-    private final String CUSTOMER_BASE_URL = CustomerResource.BASE_URL;
+    private final static String CUSTOMER_BASE_URL = CustomerResource.BASE_URL;
 
     @MockBean
     private CustomerRepository customerRepository;
 
+    @MockBean
+    private CustomerApiKeyGenerator apiKeyGenerator;
+
     @Test
-    public void shouldNotCreateIfIDIsAlreadyDefined() {
+    public void shouldNotCreateIfIDIsAlreadyDefined() throws Exception {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setId(46L);
 
-        final ResponseEntity<ErrorMessage> response = this.restTemplate.postForEntity(CUSTOMER_BASE_URL, customer, ErrorMessage.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(response.getBody().getMessage()).containsIgnoringCase("id");
+        perform(post(CUSTOMER_BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(customer))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("ID is already defined")));
     }
 
     @Test
-    public void shouldNotCreateIfTokenIsAlreadyDefined() {
+    public void shouldNotCreateIfTokenIsAlreadyDefined() throws Exception {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setToken("abcd");
 
-        final ResponseEntity<ErrorMessage> response = this.restTemplate.postForEntity(CUSTOMER_BASE_URL, customer, ErrorMessage.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
-        assertThat(response.getBody().getMessage()).containsIgnoringCase("token");
+        perform(post(CUSTOMER_BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(customer))
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message", containsString("Token is already defined")));
     }
 
     @Test
-    public void shouldCreateCustomer() {
+    public void shouldCreateCustomer() throws Exception {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
+        customer.setId(null);
         customer.setToken(null);
 
-        final ResponseEntity<Customer> response = this.restTemplate.postForEntity(CUSTOMER_BASE_URL, customer, Customer.class);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        perform(post(CUSTOMER_BASE_URL)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(customer))
+        )
+                .andExpect(status().isCreated());
 
         then(customerRepository).should(times(1)).save(any(Customer.class));
+        then(apiKeyGenerator).should(times(1)).generateUniqueApiKey();
     }
 
     @Test
-    public void shouldFindCurrentCustomer() {
-        final Customer customer = CustomerHibernateValidatorTest.createValid();
-        customer.setToken("abcd");
-        given(customerRepository.findByToken(eq(customer.getToken()))).willReturn(customer);
-
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Authorization", "abcd");
-        final HttpEntity entity = new HttpEntity(headers);
-
-        final ResponseEntity<Customer> response = this.restTemplate.exchange(CUSTOMER_BASE_URL + "/me", HttpMethod.GET, entity, Customer.class);
-        ;
-
-        assertThat(response.getBody()).isEqualTo(customer);
+    public void shouldFindMe() throws Exception {
+        perform(get(CUSTOMER_BASE_URL + "/me"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", Matchers.notNullValue()))
+                .andExpect(jsonPath("$.id", isA(Integer.class)))
+                .andExpect(jsonPath("$.token").isNotEmpty());
     }
 
 }

@@ -1,9 +1,11 @@
 package org.isheep.config.security;
 
+import org.isheep.config.CustomSpringProfiles;
 import org.isheep.entity.Customer;
 import org.isheep.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,6 +19,7 @@ import java.util.Collections;
 /**
  * Created by raymo on 21/11/2016.
  */
+@Profile("!" + CustomSpringProfiles.TEST_PROFILE)
 @Component
 public class ISheepAuthenticationProvider implements AuthenticationProvider {
 
@@ -55,15 +58,15 @@ public class ISheepAuthenticationProvider implements AuthenticationProvider {
         return true;
     }
 
-    private static final class ISheepAuthentication implements Authentication {
+    protected static final class ISheepAuthentication implements Authentication {
 
         private static final long serialVersionUID = -2481572349825611474L;
         private final Customer principal;
         private boolean isAuthenticated;
 
-        private ISheepAuthentication(final Customer principal) {
+        public ISheepAuthentication(final Customer principal) {
             this.principal = principal;
-            this.isAuthenticated= false;
+            this.isAuthenticated = false;
         }
 
         @Override
