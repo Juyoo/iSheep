@@ -1,5 +1,7 @@
 package org.isheep.entity.embeddable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Embeddable;
@@ -79,5 +81,33 @@ public class CreditCard {
 
     public void setYearExpire(final Integer yearExpire) {
         this.yearExpire = yearExpire;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final CreditCard that = (CreditCard) o;
+        return Objects.equal(ownerName, that.ownerName) &&
+                Objects.equal(number, that.number) &&
+                Objects.equal(csc, that.csc) &&
+                Objects.equal(monthExpire, that.monthExpire) &&
+                Objects.equal(yearExpire, that.yearExpire);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(ownerName, number, csc, monthExpire, yearExpire);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("ownerName", ownerName)
+                .add("number", number)
+                .add("csc", csc)
+                .add("monthExpire", monthExpire)
+                .add("yearExpire", yearExpire)
+                .toString();
     }
 }

@@ -1,6 +1,9 @@
 package org.isheep.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import org.isheep.config.javax.validation.groups.JPAValidationGroup;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.Name;
 
@@ -37,7 +40,7 @@ public class Shipping {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Parcel parcel;
 
-    @NotNull
+    @NotNull(groups = JPAValidationGroup.class)
     @Min(0)
     private Float price;
 
@@ -98,5 +101,35 @@ public class Shipping {
 
     public void setPrice(final Float price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Shipping shipping = (Shipping) o;
+        return Objects.equal(id, shipping.id) &&
+                Objects.equal(sender, shipping.sender) &&
+                Objects.equal(recipientName, shipping.recipientName) &&
+                Objects.equal(recipientAddress, shipping.recipientAddress) &&
+                Objects.equal(parcel, shipping.parcel) &&
+                Objects.equal(price, shipping.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, sender, recipientName, recipientAddress, parcel, price);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("sender", sender)
+                .add("recipientName", recipientName)
+                .add("recipientAddress", recipientAddress)
+                .add("parcel", parcel)
+                .add("price", price)
+                .toString();
     }
 }

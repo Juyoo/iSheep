@@ -1,5 +1,7 @@
 package org.isheep.entity.embeddable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Embeddable;
@@ -19,7 +21,7 @@ public class Name {
     Name() {
     }
 
-    public Name(String firstname, String lastname) {
+    public Name(final String firstname, final String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
     }
@@ -28,7 +30,7 @@ public class Name {
         return firstname;
     }
 
-    public void setFirstname(String firstname) {
+    public void setFirstname(final String firstname) {
         this.firstname = firstname;
     }
 
@@ -36,7 +38,29 @@ public class Name {
         return lastname;
     }
 
-    public void setLastname(String lastname) {
+    public void setLastname(final String lastname) {
         this.lastname = lastname;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Name name = (Name) o;
+        return Objects.equal(firstname, name.firstname) &&
+                Objects.equal(lastname, name.lastname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(firstname, lastname);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("firstname", firstname)
+                .add("lastname", lastname)
+                .toString();
     }
 }

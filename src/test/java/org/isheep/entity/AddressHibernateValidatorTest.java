@@ -1,5 +1,6 @@
 package org.isheep.entity;
 
+import org.isheep.config.javax.validation.groups.JPAValidationGroup;
 import org.isheep.entity.embeddable.Address;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import javax.validation.groups.Default;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,13 +16,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Created by anthony on 08/11/16.
  */
-public class AddressHibernateValidatorTests {
+public class AddressHibernateValidatorTest {
 
     public static Address createValid() {
         return new Address("6 Bis", "Rue du mouton", "63000", "Clermont-Ferrand");
     }
 
     private static Validator validator;
+    private final Class[] validationGroups = new Class[] { JPAValidationGroup.class, Default.class };
 
     @BeforeClass
     public static void setUp() {
@@ -31,19 +34,19 @@ public class AddressHibernateValidatorTests {
     public void shouldValidateStreetNumber() {
         final Address entity = createValid();
         entity.setStreetNumber("a");
-        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity);
+        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
 
         entity.setStreetNumber("");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
 
         entity.setStreetNumber("6C");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
 
         entity.setStreetNumber("29 Bis");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
     }
 
@@ -51,12 +54,12 @@ public class AddressHibernateValidatorTests {
     public void shouldValidateStreet() {
         final Address entity = createValid();
         entity.setStreet("");
-        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity);
+        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setStreet("Rue du boulevard");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
     }
 
@@ -64,22 +67,22 @@ public class AddressHibernateValidatorTests {
     public void shouldValidateZip() {
         final Address entity = createValid();
         entity.setZip("115");
-        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity);
+        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 5 digits");
 
         entity.setZip("aaaaa");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 5 digits");
 
         entity.setZip("631234");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("is supposed to be 5 digits");
 
         entity.setZip("63000");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
     }
 
@@ -87,12 +90,12 @@ public class AddressHibernateValidatorTests {
     public void shouldValidateCity() {
         final Address entity = createValid();
         entity.setCity("");
-        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity);
+        Set<ConstraintViolation<Address>> constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).hasSize(1);
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setCity("Clermont-Ferrand");
-        constraintViolations = validator.validate(entity);
+        constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
     }
 
