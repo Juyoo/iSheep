@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import org.isheep.config.security.CurrentCustomer;
 import org.isheep.entity.Customer;
 import org.isheep.repository.CustomerRepository;
-import org.isheep.service.CustomerApiKeyGenerator;
+import org.isheep.service.ApiKeyGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +23,10 @@ public class CustomerResource {
 
     public static final String BASE_URL = "/customer";
     private final CustomerRepository customerRepository;
-    private final CustomerApiKeyGenerator apiKeyGenerator;
+    private final ApiKeyGenerator apiKeyGenerator;
 
     @Inject
-    public CustomerResource(final CustomerRepository customerRepository, final CustomerApiKeyGenerator apiKeyGenerator) {
+    public CustomerResource(final CustomerRepository customerRepository, final ApiKeyGenerator apiKeyGenerator) {
         this.customerRepository = customerRepository;
         this.apiKeyGenerator = apiKeyGenerator;
     }
@@ -40,7 +40,7 @@ public class CustomerResource {
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
-    public final List<Customer> findAll() {
+    public final List<Customer> findAll(@CurrentCustomer final Customer customer) {
         return customerRepository.findAll();
     }
 

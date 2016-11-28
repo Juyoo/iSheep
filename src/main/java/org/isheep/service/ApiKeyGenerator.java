@@ -10,12 +10,12 @@ import java.util.UUID;
  * Created by raymo on 28/11/2016.
  */
 @Service
-public class CustomerApiKeyGenerator {
+public class ApiKeyGenerator {
 
     private final CustomerRepository customerRepository;
 
     @Inject
-    public CustomerApiKeyGenerator(final CustomerRepository customerRepository) {
+    public ApiKeyGenerator(final CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 

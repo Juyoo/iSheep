@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -19,14 +18,14 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
  * Created by raymo on 28/11/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerApiKeyGeneratorTest {
+public class ApiKeyGeneratorTest {
 
     @Mock
     private CustomerRepository customerRepository;
 
     @Spy
     @InjectMocks
-    private CustomerApiKeyGenerator keyGenerator;
+    private ApiKeyGenerator keyGenerator;
 
     @Test
     public void shouldGenerateUniqueKey() {

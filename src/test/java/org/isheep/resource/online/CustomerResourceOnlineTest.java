@@ -5,7 +5,7 @@ import org.isheep.entity.Customer;
 import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
-import org.isheep.service.CustomerApiKeyGenerator;
+import org.isheep.service.ApiKeyGenerator;
 import org.isheep.testutils.WebIntegrationTest;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,14 +32,14 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
     private CustomerRepository customerRepository;
 
     @MockBean
-    private CustomerApiKeyGenerator apiKeyGenerator;
+    private ApiKeyGenerator apiKeyGenerator;
 
     @Test
     public void shouldNotCreateIfIDIsAlreadyDefined() throws Exception {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setId(46L);
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )
@@ -52,7 +52,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setToken("abcd");
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )
@@ -66,7 +66,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         customer.setId(null);
         customer.setToken(null);
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )

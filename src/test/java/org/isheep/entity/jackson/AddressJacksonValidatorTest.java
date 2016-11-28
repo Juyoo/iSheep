@@ -2,7 +2,6 @@ package org.isheep.entity.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.isheep.entity.embeddable.Address;
-import org.isheep.entity.jpa.AddressHibernateValidatorTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.json.JacksonTester;

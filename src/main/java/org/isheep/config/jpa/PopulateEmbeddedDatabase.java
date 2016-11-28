@@ -1,6 +1,6 @@
-package org.isheep.config.database;
+package org.isheep.config.jpa;
 
-import org.isheep.config.conditional.DevProfileCondition;
+import org.isheep.config.condition.DevProfileCondition;
 import org.isheep.entity.Customer;
 import org.isheep.entity.Parcel;
 import org.isheep.entity.Shipping;
@@ -41,7 +41,7 @@ public class PopulateEmbeddedDatabase {
     private void populateDatabase() {
         final CreditCard creditCard = new CreditCard("Amazon", "5105105105105100", "563", 5, 2019);
         final Address address = new Address("6 Bis", "Rue du mouton", "63000", "Clermont-Ferrand");
-        Customer customer = new Customer("Amazon", address, creditCard, "superSecretToken");
+        Customer customer = new Customer("Amazon", "shipping-contact@amazon.com", address, creditCard, "superSecretToken");
 
         customer = this.customerRepository.save(customer);
 
