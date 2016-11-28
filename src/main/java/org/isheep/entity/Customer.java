@@ -1,17 +1,16 @@
 package org.isheep.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.isheep.config.javax.validation.groups.JPAValidationGroup;
 import org.isheep.entity.embeddable.Address;
 import org.isheep.entity.embeddable.CreditCard;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * Created by anthony on 08/11/16.
@@ -39,8 +38,7 @@ public class Customer {
     @Embedded
     private CreditCard creditCard;
 
-    @JsonIgnore
-    @NotBlank
+    @NotBlank(groups = JPAValidationGroup.class)
     private String token;
 
     Customer() {
@@ -91,5 +89,33 @@ public class Customer {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Customer customer = (Customer) o;
+        return Objects.equal(id, customer.id) &&
+                Objects.equal(name, customer.name) &&
+                Objects.equal(address, customer.address) &&
+                Objects.equal(creditCard, customer.creditCard) &&
+                Objects.equal(token, customer.token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, name, address, creditCard, token);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("name", name)
+                .add("address", address)
+                .add("creditCard", creditCard)
+                .add("token", token)
+                .toString();
     }
 }

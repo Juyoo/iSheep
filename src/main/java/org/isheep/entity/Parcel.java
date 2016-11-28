@@ -1,7 +1,7 @@
 package org.isheep.entity;
 
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -46,7 +46,7 @@ public class Parcel {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -54,7 +54,7 @@ public class Parcel {
         return width;
     }
 
-    public void setWidth(Float width) {
+    public void setWidth(final Float width) {
         this.width = width;
     }
 
@@ -62,7 +62,7 @@ public class Parcel {
         return height;
     }
 
-    public void setHeight(Float height) {
+    public void setHeight(final Float height) {
         this.height = height;
     }
 
@@ -70,7 +70,7 @@ public class Parcel {
         return depth;
     }
 
-    public void setDepth(Float depth) {
+    public void setDepth(final Float depth) {
         this.depth = depth;
     }
 
@@ -78,7 +78,35 @@ public class Parcel {
         return weight;
     }
 
-    public void setWeight(Float weight) {
+    public void setWeight(final Float weight) {
         this.weight = weight;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Parcel parcel = (Parcel) o;
+        return Objects.equal(id, parcel.id) &&
+                Objects.equal(width, parcel.width) &&
+                Objects.equal(height, parcel.height) &&
+                Objects.equal(depth, parcel.depth) &&
+                Objects.equal(weight, parcel.weight);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, width, height, depth, weight);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("width", width)
+                .add("height", height)
+                .add("depth", depth)
+                .add("weight", weight)
+                .toString();
     }
 }

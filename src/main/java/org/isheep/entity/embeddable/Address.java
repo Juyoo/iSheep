@@ -1,5 +1,7 @@
 package org.isheep.entity.embeddable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Embeddable;
@@ -38,7 +40,7 @@ public class Address {
         return streetNumber;
     }
 
-    public void setStreetNumber(String streetNumber) {
+    public void setStreetNumber(final String streetNumber) {
         this.streetNumber = streetNumber;
     }
 
@@ -46,7 +48,7 @@ public class Address {
         return street;
     }
 
-    public void setStreet(String street) {
+    public void setStreet(final String street) {
         this.street = street;
     }
 
@@ -54,7 +56,7 @@ public class Address {
         return zip;
     }
 
-    public void setZip(String zip) {
+    public void setZip(final String zip) {
         this.zip = zip;
     }
 
@@ -62,7 +64,33 @@ public class Address {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(final String city) {
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Address address = (Address) o;
+        return Objects.equal(streetNumber, address.streetNumber) &&
+                Objects.equal(street, address.street) &&
+                Objects.equal(zip, address.zip) &&
+                Objects.equal(city, address.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(streetNumber, street, zip, city);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("streetNumber", streetNumber)
+                .add("street", street)
+                .add("zip", zip)
+                .add("city", city)
+                .toString();
     }
 }
