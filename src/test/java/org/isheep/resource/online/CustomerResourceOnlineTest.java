@@ -58,20 +58,4 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         then(customerRepository).should(times(1)).save(any(Customer.class));
     }
 
-    @Test
-    public void shouldFindCurrentCustomer() {
-        final Customer customer = CustomerHibernateValidatorTest.createValid();
-        customer.setToken("abcd");
-        given(customerRepository.findByToken(eq(customer.getToken()))).willReturn(customer);
-
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set("X-Authorization", "abcd");
-        final HttpEntity entity = new HttpEntity(headers);
-
-        final ResponseEntity<Customer> response = this.restTemplate.exchange(CUSTOMER_BASE_URL + "/me", HttpMethod.GET, entity, Customer.class);
-        ;
-
-        assertThat(response.getBody()).isEqualTo(customer);
-    }
-
 }
