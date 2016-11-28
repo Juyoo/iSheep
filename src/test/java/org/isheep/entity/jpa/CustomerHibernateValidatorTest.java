@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CustomerHibernateValidatorTest {
 
     public static Customer createValid() {
-        return new Customer("Amazon", AddressHibernateValidatorTest.createValid(), CreditCardHibernateValidatorTest.createValid(), "qsdqsdsqdsq");
+        return new Customer("Amazon", "shipping-contact@amazon.com", AddressHibernateValidatorTest.createValid(), CreditCardHibernateValidatorTest.createValid(), "qsdqsdsqdsq");
     }
 
     private static Validator validator;
@@ -41,6 +41,24 @@ public class CustomerHibernateValidatorTest {
         assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
 
         entity.setName("Amazon");
+        constraintViolations = validator.validate(entity, validationGroups);
+        assertThat(constraintViolations).isEmpty();
+    }
+
+    @Test
+    public void shouldValidateEmail() {
+        final Customer entity = createValid();
+        entity.setEmail("");
+        Set<ConstraintViolation<Customer>> constraintViolations = validator.validate(entity, validationGroups);
+        assertThat(constraintViolations).hasSize(1);
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("may not be empty");
+
+        entity.setEmail("badlyformatedemail.dd");
+        constraintViolations = validator.validate(entity, validationGroups);
+        assertThat(constraintViolations).hasSize(1);
+        assertThat(constraintViolations.iterator().next().getMessage()).isEqualTo("not a well-formed email address");
+
+        entity.setEmail("shipping-contact@amazon.com");
         constraintViolations = validator.validate(entity, validationGroups);
         assertThat(constraintViolations).isEmpty();
     }

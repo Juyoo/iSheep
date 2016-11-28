@@ -2,6 +2,7 @@ package org.isheep.entity;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.isheep.config.javax.validation.groups.JPAValidationGroup;
@@ -28,6 +29,10 @@ public class Customer {
     @NotEmpty
     private String name;
 
+    @NotBlank
+    @Email
+    private String email;
+
     @Valid
     @NotNull
     @Embedded
@@ -44,8 +49,9 @@ public class Customer {
     Customer() {
     }
 
-    public Customer(final String name, final Address address, final CreditCard creditCard, final String token) {
+    public Customer(final String name, final String email, final Address address, final CreditCard creditCard, final String token) {
         this.name = name;
+        this.email = email;
         this.address = address;
         this.creditCard = creditCard;
         this.token = token;
@@ -55,7 +61,7 @@ public class Customer {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -63,7 +69,7 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -71,7 +77,7 @@ public class Customer {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(final Address address) {
         this.address = address;
     }
 
@@ -79,7 +85,7 @@ public class Customer {
         return creditCard;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
+    public void setCreditCard(final CreditCard creditCard) {
         this.creditCard = creditCard;
     }
 
@@ -87,8 +93,16 @@ public class Customer {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(final String token) {
         this.token = token;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
     }
 
     @Override
