@@ -1,7 +1,7 @@
 package org.isheep.resource.offline;
 
 import org.isheep.entity.Customer;
-import org.isheep.entity.CustomerHibernateValidatorTest;
+import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
 import org.isheep.service.CustomerApiKeyGenerator;

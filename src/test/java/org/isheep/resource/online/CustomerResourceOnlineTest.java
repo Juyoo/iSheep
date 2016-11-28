@@ -1,7 +1,7 @@
 package org.isheep.resource.online;
 
 import org.isheep.entity.Customer;
-import org.isheep.entity.CustomerHibernateValidatorTest;
+import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
 import org.isheep.resource.exceptionmapper.ErrorMessage;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;

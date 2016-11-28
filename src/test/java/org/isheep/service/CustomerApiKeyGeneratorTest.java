@@ -1,7 +1,6 @@
 package org.isheep.service;
 
-import org.isheep.entity.Customer;
-import org.isheep.entity.CustomerHibernateValidatorTest;
+import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
