@@ -1,5 +1,6 @@
 package org.isheep.testconfig.security;
 
+import org.assertj.core.util.Strings;
 import org.isheep.config.CustomSpringProfiles;
 import org.isheep.config.security.ISheepAuthenticationProvider;
 import org.isheep.config.security.ISheepAuthenticationToken;
@@ -38,8 +39,9 @@ import java.util.Collections;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class MockedSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String ADMIN_ROLE = "admin";
-    private static final String NO_AUTH = "noauth";
+    public static final String MOCKED_ROLE_HEADER = "mocked-role";
+    public static final String ADMIN_ROLE = "admin";
+    public static final String NO_AUTH = "noauth";
 
     private final MockedProvider mockedProvider;
 
@@ -75,7 +77,7 @@ public class MockedSecurityConfig extends WebSecurityConfigurerAdapter {
     private static class MockedFilter extends OncePerRequestFilter {
         @Override
         protected void doFilterInternal(final HttpServletRequest request, final HttpServletResponse response, final FilterChain filterChain) throws ServletException, IOException {
-            final String overrideRoleHeader = request.getHeader("mocked-role");
+            final String overrideRoleHeader = request.getHeader(MOCKED_ROLE_HEADER);
 
             final Authentication authenticationToken = new ISheepAuthenticationToken(Collections.emptyList(), overrideRoleHeader);
 
@@ -98,6 +100,14 @@ public class MockedSecurityConfig extends WebSecurityConfigurerAdapter {
         public Authentication authenticate(final Authentication authentication) throws AuthenticationException {
             final String token = (String) authentication.getCredentials();
 
+            // By default no token is given, so authentication is mocked by default with a user.
+            if (Strings.isNullOrEmpty(token)) {
+                final Customer asUser = CustomerHibernateValidatorTest.createValid();
+                asUser.setId(42L);
+                asUser.setToken("asuser");
+                return new ISheepAuthentication(asUser);
+            }
+
             switch (token) {
                 case ADMIN_ROLE:
                     final Customer asAdmin = CustomerHibernateValidatorTest.createValid();
@@ -108,10 +118,8 @@ public class MockedSecurityConfig extends WebSecurityConfigurerAdapter {
                     // unauthenticated
                     return null;
                 default:
-                    final Customer asuser = CustomerHibernateValidatorTest.createValid();
-                    asuser.setId(42L);
-                    asuser.setToken("asuser");
-                    return new ISheepAuthentication(asuser);
+                    // this case should not happen
+                    throw new IllegalArgumentException("Mocked authentication failed.");
             }
         }
 
