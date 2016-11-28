@@ -1,6 +1,6 @@
-package org.isheep.config.database;
+package org.isheep.config.jpa;
 
-import org.isheep.config.conditional.DevProfileCondition;
+import org.isheep.config.condition.DevProfileCondition;
 import org.isheep.entity.Customer;
 import org.isheep.entity.Parcel;
 import org.isheep.entity.Shipping;

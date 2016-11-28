@@ -1,4 +1,4 @@
-package org.isheep.config.conditional;
+package org.isheep.config.condition;
 
 import org.isheep.config.CustomSpringProfiles;
 import org.springframework.boot.autoconfigure.condition.ConditionOutcome;
