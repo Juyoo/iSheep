@@ -40,7 +40,7 @@ public class CustomerResource {
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
-    public final List<Customer> findAll() {
+    public final List<Customer> findAll(@CurrentCustomer final Customer customer) {
         return customerRepository.findAll();
     }
 

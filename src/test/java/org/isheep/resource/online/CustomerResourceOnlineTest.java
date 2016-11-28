@@ -39,7 +39,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setId(46L);
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )
@@ -52,7 +52,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         final Customer customer = CustomerHibernateValidatorTest.createValid();
         customer.setToken("abcd");
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )
@@ -66,7 +66,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
         customer.setId(null);
         customer.setToken(null);
 
-        perform(post(CUSTOMER_BASE_URL)
+        performWithNoAuthentication(post(CUSTOMER_BASE_URL)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(customer))
         )
