@@ -1,6 +1,6 @@
 package org.isheep.resource;
 
-import org.isheep.config.javax.validation.groups.JSONValidationGroup;
+import org.isheep.config.javax.validation.groups.JacksonGroup;
 import org.isheep.config.security.CurrentCustomer;
 import org.isheep.entity.Customer;
 import org.isheep.entity.Shipping;
@@ -38,7 +38,7 @@ public class ShippingResource {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    public final Shipping create(@CurrentCustomer final Customer customer, @Validated(JSONValidationGroup.class) @RequestBody final Shipping shipping) {
+    public final Shipping create(@CurrentCustomer final Customer customer, @Validated(JacksonGroup.class) @RequestBody final Shipping shipping) {
         if (shipping.getId() != null) {
             throw new IllegalArgumentException("Cannot persist an entity if ID is already defined");
         }
