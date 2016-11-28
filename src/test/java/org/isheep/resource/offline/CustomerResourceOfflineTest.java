@@ -4,7 +4,7 @@ import org.isheep.entity.Customer;
 import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
-import org.isheep.service.CustomerApiKeyGenerator;
+import org.isheep.service.ApiKeyGenerator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +28,7 @@ public class CustomerResourceOfflineTest {
     private CustomerRepository customerRepository;
 
     @Mock
-    private CustomerApiKeyGenerator keyGenerator;
+    private ApiKeyGenerator keyGenerator;
 
     @InjectMocks
     private CustomerResource customerResource;

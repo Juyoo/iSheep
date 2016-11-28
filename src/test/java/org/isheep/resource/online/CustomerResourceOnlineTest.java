@@ -5,7 +5,7 @@ import org.isheep.entity.Customer;
 import org.isheep.entity.jpa.CustomerHibernateValidatorTest;
 import org.isheep.repository.CustomerRepository;
 import org.isheep.resource.CustomerResource;
-import org.isheep.service.CustomerApiKeyGenerator;
+import org.isheep.service.ApiKeyGenerator;
 import org.isheep.testutils.WebIntegrationTest;
 import org.junit.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,7 +32,7 @@ public class CustomerResourceOnlineTest extends WebIntegrationTest {
     private CustomerRepository customerRepository;
 
     @MockBean
-    private CustomerApiKeyGenerator apiKeyGenerator;
+    private ApiKeyGenerator apiKeyGenerator;
 
     @Test
     public void shouldNotCreateIfIDIsAlreadyDefined() throws Exception {

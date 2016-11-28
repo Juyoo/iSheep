@@ -18,14 +18,14 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
  * Created by raymo on 28/11/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CustomerApiKeyGeneratorTest {
+public class ApiKeyGeneratorTest {
 
     @Mock
     private CustomerRepository customerRepository;
 
     @Spy
     @InjectMocks
-    private CustomerApiKeyGenerator keyGenerator;
+    private ApiKeyGenerator keyGenerator;
 
     @Test
     public void shouldGenerateUniqueKey() {
