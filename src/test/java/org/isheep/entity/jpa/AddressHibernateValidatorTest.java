@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class AddressHibernateValidatorTest {
 
     public static Address createValid() {
-        return new Address("6 Bis", "Rue du mouton", "63000", "Clermont-Ferrand");
+        return new Address("1", "Rue du Vallon des Bories", "43700", "Brives Charensac");
     }
 
     private static Validator validator;
