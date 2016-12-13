@@ -4,13 +4,18 @@ import org.isheep.config.javax.validation.groups.JacksonGroup;
 import org.isheep.config.security.CurrentCustomer;
 import org.isheep.entity.Customer;
 import org.isheep.entity.Shipping;
+import org.isheep.entity.Tracking;
 import org.isheep.repository.ShippingRepository;
 import org.isheep.service.ParcelPriceCalculator;
+import org.joda.time.DateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import sun.util.resources.es.CalendarData_es;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -45,6 +50,15 @@ public class ShippingResource {
 
         shipping.setSender(customer);
         shipping.setPrice(calculator.calculatePrice(shipping.getParcel()));
+
+        final List<Tracking> trackings = new ArrayList<>();
+
+        final DateTime dateEvent = DateTime.now();
+        trackings.add(new Tracking(dateEvent.toDate(), "Votre colis est arrivé à la station de trie de Paris"));
+        trackings.add(new Tracking(dateEvent.plusMinutes(3).toDate(), "Votre colis est arrivé à la station de trie de Lyon"));
+        trackings.add(new Tracking(dateEvent.plusMinutes(8).toDate(), "Votre colis est arrivé à la station de trie de Clermont-Ferrand"));
+
+        shipping.setTrackings(trackings);
 
         return shippingRepository.save(shipping);
     }
