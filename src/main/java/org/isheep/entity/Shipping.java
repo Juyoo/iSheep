@@ -11,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by raymo on 15/11/2016.
@@ -43,6 +45,10 @@ public class Shipping {
     @NotNull(groups = JPAValidationGroup.class)
     @Min(0)
     private Float price;
+
+    @NotNull
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Tracking> trackings = new ArrayList<>();
 
     Shipping() {
     }
@@ -103,22 +109,38 @@ public class Shipping {
         this.price = price;
     }
 
+    public List<Tracking> getTrackings() {
+        return trackings;
+    }
+
+    public void setTrackings(final List<Tracking> trackings) {
+        this.trackings = trackings;
+    }
+
+    public void addTrackingToList(final Tracking tracking){
+        if(tracking == null){
+            throw new NullPointerException("tracking can't be null");
+        }
+
+        trackings.add(tracking);
+    }
+
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Shipping shipping = (Shipping) o;
-        return Objects.equal(id, shipping.id) &&
-                Objects.equal(sender, shipping.sender) &&
+        Shipping shipping = (Shipping) o;
+        return Objects.equal(sender, shipping.sender) &&
                 Objects.equal(recipientName, shipping.recipientName) &&
                 Objects.equal(recipientAddress, shipping.recipientAddress) &&
                 Objects.equal(parcel, shipping.parcel) &&
-                Objects.equal(price, shipping.price);
+                Objects.equal(price, shipping.price) &&
+                Objects.equal(trackings, shipping.trackings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id, sender, recipientName, recipientAddress, parcel, price);
+        return Objects.hashCode(sender, recipientName, recipientAddress, parcel, price, trackings);
     }
 
     @Override
@@ -130,6 +152,7 @@ public class Shipping {
                 .add("recipientAddress", recipientAddress)
                 .add("parcel", parcel)
                 .add("price", price)
+                .add("trackings", trackings)
                 .toString();
     }
 }
