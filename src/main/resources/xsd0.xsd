@@ -1,0 +1,67 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="customer" type="customer"/>
+    <xs:element name="parcel" type="parcel"/>
+    <xs:element name="shipping" type="shipping"/>
+    <xs:element name="tracking" type="tracking"/>
+    <xs:complexType name="shipping">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element ref="parcel" minOccurs="0"/>
+            <xs:element name="price" type="xs:float" minOccurs="0"/>
+            <xs:element name="recipientAddress" type="address" minOccurs="0"/>
+            <xs:element name="recipientName" type="name" minOccurs="0"/>
+            <xs:element name="sender" type="customer" minOccurs="0"/>
+            <xs:element name="trackings" type="tracking" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="parcel">
+        <xs:sequence>
+            <xs:element name="depth" type="xs:float" minOccurs="0"/>
+            <xs:element name="height" type="xs:float" minOccurs="0"/>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="weight" type="xs:float" minOccurs="0"/>
+            <xs:element name="width" type="xs:float" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="address">
+        <xs:sequence>
+            <xs:element name="city" type="xs:string" minOccurs="0"/>
+            <xs:element name="street" type="xs:string" minOccurs="0"/>
+            <xs:element name="streetNumber" type="xs:string" minOccurs="0"/>
+            <xs:element name="zip" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="name">
+        <xs:sequence>
+            <xs:element name="firstname" type="xs:string" minOccurs="0"/>
+            <xs:element name="lastname" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="customer">
+        <xs:sequence>
+            <xs:element name="address" type="address" minOccurs="0"/>
+            <xs:element name="creditCard" type="creditCard" minOccurs="0"/>
+            <xs:element name="email" type="xs:string" minOccurs="0"/>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+            <xs:element name="name" type="xs:string" minOccurs="0"/>
+            <xs:element name="token" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="creditCard">
+        <xs:sequence>
+            <xs:element name="csc" type="xs:string" minOccurs="0"/>
+            <xs:element name="monthExpire" type="xs:int" minOccurs="0"/>
+            <xs:element name="number" type="xs:string" minOccurs="0"/>
+            <xs:element name="ownerName" type="xs:string" minOccurs="0"/>
+            <xs:element name="yearExpire" type="xs:int" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="tracking">
+        <xs:sequence>
+            <xs:element name="event" type="xs:string" minOccurs="0"/>
+            <xs:element name="eventDate" type="xs:dateTime" minOccurs="0"/>
+            <xs:element name="id" type="xs:long" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

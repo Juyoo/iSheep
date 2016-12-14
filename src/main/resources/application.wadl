@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+    <doc xmlns:jersey="http://jersey.java.net/" jersey:generatedBy="Jersey: 2.23.2 2016-08-08 17:14:55"/>
+    <doc xmlns:jersey="http://jersey.java.net/" jersey:hint="This is simplified WADL with user and core resources only. To get full WADL with extended resources use the query parameter detail. Link: http://localhost:8080/isheep/application.wadl?detail=true"/>
+    <grammars>
+        <include href="application.wadl/xsd0.xsd">
+            <doc title="Generated" xml:lang="en"/>
+        </include>
+    </grammars>
+    <resources base="http://localhost:8080/isheep/">
+        <resource path="/shipping">
+            <method id="createShipping" name="POST">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="X-Authorization" style="header" type="xs:string"/>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="shipping" mediaType="application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="shipping" mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/me">
+                <method id="myShippings" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="X-Authorization" style="header" type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="shipping" mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/customer">
+            <method id="register" name="POST">
+                <request>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="customer" mediaType="application/json"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="customer" mediaType="application/json"/>
+                </response>
+            </method>
+            <method id="findAllCustomers" name="GET">
+                <request>
+                    <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="X-Authorization" style="header" type="xs:string"/>
+                </request>
+                <response>
+                    <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="customer" mediaType="application/json"/>
+                </response>
+            </method>
+            <resource path="/me">
+                <method id="me" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="X-Authorization" style="header" type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="customer" mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+        <resource path="/tracking">
+            <resource path="/shipping-{shippingId}">
+                <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="shippingId" style="template" type="xs:long"/>
+                <method id="trackShipping" name="GET">
+                    <request>
+                        <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="X-Authorization" style="header" type="xs:string"/>
+                    </request>
+                    <response>
+                        <ns2:representation xmlns:ns2="http://wadl.dev.java.net/2009/02" xmlns="" element="tracking" mediaType="application/json"/>
+                    </response>
+                </method>
+            </resource>
+        </resource>
+    </resources>
+</application>

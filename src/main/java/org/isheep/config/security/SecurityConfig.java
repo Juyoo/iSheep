@@ -46,7 +46,10 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(final WebSecurity web) throws Exception {
-        web.ignoring().mvcMatchers(HttpMethod.POST, "/customer");
+        web.ignoring()
+                .mvcMatchers(HttpMethod.POST, "/customer")
+                .mvcMatchers(HttpMethod.GET, "/application.wadl")
+                .mvcMatchers(HttpMethod.GET, "/application.wadl/xsd0.xsd");
     }
 
     @Override
