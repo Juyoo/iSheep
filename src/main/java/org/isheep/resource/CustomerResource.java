@@ -40,13 +40,13 @@ public class CustomerResource {
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON)
-    public final List<Customer> findAll(@CurrentCustomer final Customer customer) {
+    public final List<Customer> findAllCustomers(@CurrentCustomer final Customer customer) {
         return customerRepository.findAll();
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public final Customer create(@RequestBody @Valid final Customer customer) {
+    public final Customer register(@RequestBody @Valid final Customer customer) {
         if (customer.getId() != null) {
             throw new IllegalArgumentException("Cannot persist an entity if ID is already defined");
         }

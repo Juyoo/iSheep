@@ -45,7 +45,7 @@ public class CustomerResourceOfflineTest {
         customer.setId(42L);
 
         try {
-            customerResource.create(customer);
+            customerResource.register(customer);
             fail("Shoul fail if ID is already defined.");
         } catch (final IllegalArgumentException e) {
             assertThat(e.getMessage()).isEqualTo("Cannot persist an entity if ID is already defined");
@@ -58,7 +58,7 @@ public class CustomerResourceOfflineTest {
         customer.setToken("qsdsqds");
 
         try {
-            customerResource.create(customer);
+            customerResource.register(customer);
             fail("Shoul fail if token is already defined.");
         } catch (final IllegalArgumentException e) {
             assertThat(e.getMessage()).isEqualTo("Cannot persist an entity if Token is already defined");
@@ -71,7 +71,7 @@ public class CustomerResourceOfflineTest {
         customer.setToken(null);
         doReturn(customer).when(customerRepository).save(customer);
 
-        final Customer created = customerResource.create(customer);
+        final Customer created = customerResource.register(customer);
 
         assertThat(created).isEqualToIgnoringGivenFields(customer, "id");
         verify(customerRepository, times(1)).save(customer);
