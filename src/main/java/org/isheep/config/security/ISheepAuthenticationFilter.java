@@ -31,7 +31,7 @@ public class ISheepAuthenticationFilter extends OncePerRequestFilter {
         // validate the value in xAuth
         if(!isValid(xAuth)){
             logger.debug("Request received without X-Authorization header, aborting authentication.");
-            throw new SecurityException("'X-Authorization' header is required.");
+            filterChain.doFilter(request, response);
         }
 
         final Authentication authenticationToken = new ISheepAuthenticationToken(Collections.emptyList(), xAuth);
