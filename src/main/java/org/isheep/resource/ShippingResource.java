@@ -49,7 +49,7 @@ public class ShippingResource {
         }
 
         shipping.setSender(customer);
-        shipping.setPrice(calculator.calculatePrice(shipping.getParcel()));
+        shipping.setPrice(calculator.calculateShippingPrice(shipping));
 
         final List<Tracking> trackings = new ArrayList<>();
 
