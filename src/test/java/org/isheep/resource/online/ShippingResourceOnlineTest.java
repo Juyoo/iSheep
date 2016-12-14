@@ -57,7 +57,7 @@ public class ShippingResourceOnlineTest extends WebIntegrationTest {
                 .andExpect(status().isCreated());
 
         then(shippingRepository).should(times(1)).save(any(Shipping.class));
-        then(calculator).should(times(1)).calculatePrice(any(Parcel.class));
+        then(calculator).should(times(1)).calculateShippingPrice(any(Shipping.class));
     }
 
 }

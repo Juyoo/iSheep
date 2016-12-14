@@ -20,7 +20,7 @@ public class ParcelPriceCalculator {
     ParcelPriceCalculator() {
     }
 
-    public Float calculatePrice(final Parcel parcel) {
+    private Float calculatePrice(final Parcel parcel) {
         final Float cubeDimension = parcel.getHeight() * parcel.getWidth() * parcel.getDepth();
         // TODO : Add distance factor (gmap api?)
         return (cubeDimension / 100) * 0.01f + parcel.getWeight() * 0.002f;
@@ -50,7 +50,6 @@ public class ParcelPriceCalculator {
 
         float distanceFactor = distance/200000+1;
         return parcelPrice*distanceFactor;
-
     }
 
 }
