@@ -7,7 +7,7 @@
             <doc title="Generated" xml:lang="en"/>
         </include>
     </grammars>
-    <resources base="http://localhost:8080/isheep/">
+    <resources base="https://ubp-isheep.herokuapp.com/isheep/">
         <resource path="/shipping">
             <method id="createShipping" name="POST">
                 <request>

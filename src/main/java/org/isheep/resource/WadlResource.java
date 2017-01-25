@@ -33,7 +33,7 @@ public class WadlResource {
     }
 
     private String getResourceAsString(final String fileName) throws IOException {
-        final InputStream resourceInputStream = new ClassPathResource("application.wadl").getInputStream();
+        final InputStream resourceInputStream = new ClassPathResource(fileName).getInputStream();
         return IOUtils.toString(resourceInputStream, Charsets.UTF_8);
     }
 
