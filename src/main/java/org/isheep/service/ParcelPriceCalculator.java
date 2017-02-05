@@ -31,7 +31,12 @@ public class ParcelPriceCalculator {
         float distance = 0f;
 
         String[] origins = {"Clermont-Ferrand 63000 France"};
-        String[] destinations = {shipping.getRecipientAddress().toString()};
+        String[] destinations = {
+            shipping.getRecipientAddress().getStreetNumber()
+            + " " + shipping.getRecipientAddress().getStreet()
+            + " " + shipping.getRecipientAddress().getZip()
+            + " " + shipping.getRecipientAddress().getCity()
+        };
 
         DistanceMatrix results = null;
         try {
