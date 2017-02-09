@@ -67,6 +67,10 @@ public class Address {
     public void setCity(final String city) {
         this.city = city;
     }
+    
+    public String asStringAddress() {
+        return this.getStreetNumber() + " " + this.getStreet() + " " + this.getZip() + " " + this.getCity();
+    }
 
     @Override
     public boolean equals(final Object o) {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import sun.util.resources.es.CalendarData_es;
 
 import javax.inject.Inject;
+import javax.ws.rs.POST;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,6 +62,17 @@ public class ShippingResource {
         shipping.setTrackings(trackings);
 
         return shippingRepository.save(shipping);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value="/estimate", method = RequestMethod.POST)
+    public final Float estimateShippingFee(@CurrentCustomer final Customer customer, @Validated(JacksonGroup.class) @RequestBody final Shipping shipping) {
+        if (shipping.getId() != null) {
+            throw new IllegalArgumentException("Cannot persist an entity if ID is already defined");
+        }
+
+        shipping.setSender(customer);
+        return calculator.calculateShippingPrice(shipping);
     }
 
 }
